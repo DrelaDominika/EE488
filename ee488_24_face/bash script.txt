@@ -1,0 +1,66 @@
+# Training and Evaluation Commands for TrainEmbedNet.py
+# Each command includes explanations for clarity.
+
+### 1. Training with InceptionV3 Model
+# This command trains the InceptionV3 model for 10 epochs using the first training dataset.
+python ./trainEmbedNet.py \
+    --gpu 0 \
+    --train_path /mnt/home/joonson/ee488_24_data/train1 \
+    --test_path /mnt/home/joonson/ee488_24_data/val \
+    --test_list /mnt/home/joonson/ee488_24_data/val_pairs.csv \
+    --save_path ./exps/inception \
+    --model InceptionV3 \
+    --max_epoch 10 --batch_size 60
+
+### 2. Training with MobileNetV2 Model
+# This command trains the MobileNetV2 model for 10 epochs using the same training dataset.
+python ./trainEmbedNet.py \
+    --gpu 0 \
+    --train_path /mnt/home/joonson/ee488_24_data/train1 \
+    --test_path /mnt/home/joonson/ee488_24_data/val \
+    --test_list /mnt/home/joonson/ee488_24_data/val_pairs.csv \
+    --save_path ./exps/mobile \
+    --model MobileNetV2 \
+    --max_epoch 10 --batch_size 60
+
+### 3. Training with EfficientNet-B0 and Pretrained Weights
+# This trains EfficientNet-B0 for 20 epochs using a second training dataset and a pretrained model.
+python ./trainEmbedNet.py \
+    --gpu 0 \
+    --train_path /mnt/home/joonson/ee488_24_data/train2 \
+    --test_path /mnt/home/joonson/ee488_24_data/val \
+    --test_list /mnt/home/joonson/ee488_24_data/val_pairs.csv \
+    --save_path ./exps/efficient \
+    --model EfficientNet-B0 \
+    --max_epoch 20 --batch_size 20 \
+    --initial_model /mnt/home/20246468/EE488/ee488_24_face/exps/efficient/epoch0010.model
+
+### 4. Evaluating InceptionV3 Model
+# This evaluates the InceptionV3 model on a test dataset and saves the output to a CSV file.
+python ./trainEmbedNet.py \
+    --gpu 0 \
+    --test_path ee488_24_test/test \
+    --test_list ee488_24_test/test_pairs.csv \
+    --initial_model /mnt/home/20246468/EE488/ee488_24_face/exps/inception/epoch0020.model \
+    --eval --save_path exps/eval1_inception \
+    --output test_output_1_inception.csv
+
+### 5. Evaluating EfficientNet-B0 Model
+# This evaluates the EfficientNet-B0 model on the test dataset.
+python ./trainEmbedNet.py \
+    --gpu 0 \
+    --test_path ee488_24_test/test \
+    --test_list ee488_24_test/test_pairs.csv \
+    --initial_model /mnt/home/20246468/EE488/ee488_24_face/exps/efficient/epoch0020.model \
+    --eval --save_path exps/eval1_efficient \
+    --output test_output_1_efficient.csv
+
+### 6. Evaluating MobileNetV2 Model
+# This evaluates the MobileNetV2 model and saves the test results.
+python ./trainEmbedNet.py \
+    --gpu 0 \
+    --test_path ee488_24_test/test \
+    --test_list ee488_24_test/test_pairs.csv \
+    --initial_model /mnt/home/20246468/EE488/ee488_24_face/exps/mobileNet/epoch0020.model \
+    --eval --save_path exps/eval1_mobileNet \
+    --output test_output_1_mobileNet.csv
